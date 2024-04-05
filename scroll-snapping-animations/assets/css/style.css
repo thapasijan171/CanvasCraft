@@ -1,0 +1,206 @@
+@layer base, rhythm, layout, components, default, overwrites;
+
+html {
+  /* Create a snapping rule on the html element */
+  scroll-snap-type: y mandatory;
+
+  /* Create a timeline scope, so we can target any element on the page */
+  timeline-scope: --section, --main, --site-header;
+}
+
+/* We'll want to match these colors for the best melty effect */
+/* But play around with them (and add a color to section) to see happens */
+body,
+.content {
+  background-color: var(--color-background, black);
+}
+
+main {
+  view-timeline: --main;
+}
+
+.section {
+  /* Creating a snapping rule on the section element */
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+
+  /* Attach the timeline to the section element*/
+  view-timeline: --section;
+
+  /* Set each section to the full dynamic height of the viewport */
+  height: 100dvh;
+}
+
+.content {
+  /* Fix the content, so it doesn't scroll with the section */
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+
+  /* Animate the content based on the section scrolling */
+  --contrast: 4;
+  --blur: 0.5rem;
+
+  animation: blink ease-in-out both;
+  animation-timeline: --section;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    filter: blur(var(--blur)) contrast(var(--contrast));
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  50% {
+    filter: blur(0) contrast(1);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* 
+  This is a bit of a hack to get the indicator to work because I'm lazy.
+  We're translating the dot from the top to the bottom of its parent,
+  using the browser scroll position as the animation timeline.
+  It's not really matched up to the scrolling sections, only appears to be.
+*/
+.indicator::before {
+  animation: indicate linear both;
+  animation-timeline: --main;
+  animation-range: contain;
+}
+
+/* And we're manually setting the colors because see: lazy comment above */
+@keyframes indicate {
+  0% {
+    --color-indicator: var(--color-primary);
+    transform: translateY(0);
+  }
+
+  25% {
+    --color-indicator: var(--color-yellow);
+  }
+
+  50% {
+    --color-indicator: var(--color-secondary);
+  }
+
+  75% {
+    --color-indicator: var(--color-red);
+  }
+
+  100% {
+    --color-indicator: var(--color-purple);
+    transform: translateY(
+      calc(var(--indicator-total-height) - var(--indicator-size))
+    );
+  }
+}
+
+/* Remove gradient indicator on scroll-to-end (visible on small screens */
+
+.site-header label:last-of-type {
+  view-timeline: --site-header inline;
+}
+
+.site-header::after {
+  animation: fade-scroll ease-in-out both;
+  animation-timeline: --site-header;
+  animation-range: entry-crossing;
+}
+
+@keyframes fade-scroll {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Change animation based on radio checked */
+body:has([value="horizontal-scroll"]:checked) .content {
+  /* 
+    The only reason we're repeat these two properties instead of simply 
+    setting `animation-name` is so the polyfill will pick them up 
+    They're flaky though and tend to get stuck. You might need to
+    refresh the page and select an option before scrolling
+  */
+  animation: horizontal-scroll ease-in-out both;
+  animation-timeline: --section;
+}
+
+body:has([value="backwards-scroll"]:checked) .content {
+  animation: backwards-scroll ease-in-out both;
+  animation-timeline: --section;
+}
+
+body:has([value="zoom-scroll"]:checked) .content {
+  animation: zoom-scroll ease-in-out both;
+  animation-timeline: --section;
+}
+
+/* Alternative animations */
+/* Very cool, try it */
+@keyframes horizontal-scroll {
+  0% {
+    transform: translate3d(100%, 0%, 0);
+  }
+
+  50% {
+    transform: none;
+  }
+
+  100% {
+    transform: translate3d(-100%, 0%, 0);
+  }
+}
+
+/* Befuddling, try it */
+@keyframes backwards-scroll {
+  0% {
+    transform: translate3d(0%, -100%, 0);
+  }
+
+  50% {
+    transform: none;
+  }
+
+  100% {
+    transform: translate3d(0%, 100%, 0);
+  }
+}
+
+/* WIP */
+@keyframes zoom-scroll {
+  0% {
+    filter: blur(5rem);
+    transform: scale(0);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  50% {
+    filter: blur(0);
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  100% {
+    filter: blur(3rem);
+    transform: scale(1.5);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* 
+  The actual page styling is in a different stylesheet to not clutter
+  this pen with irrelevant or confusing code
+
+  https://codepen.io/giana/pen/rNRzgRj
+*/
