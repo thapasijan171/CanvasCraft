@@ -7,35 +7,35 @@ const data = [
         image:'assets/img/1.jpg'
     },
     {
-        place:'Nepal, Pokahara',
+        place:'Nepal, Pokhara',
         title:'Hills',
         title2:'Lake & hills',
         description:'Nestled amidst the hills of Nepal\'s Pokhara, Fewa Lake sparkles with tranquility, mirroring the stunning beauty of the surrounding Himalayan landscape.',
         image:'assets/img/2.jpg'
     },
     {
-        place:'Nepal, Pokahara',
+        place:'Nepal, Pokhara',
         title:'Lake',
         title2:'Temple',
         description:'In the embrace of Pokhara\'s hills, Fewa Lake shimmers serenely beneath the veil of cloudy skies, a picturesque haven nestled amidst Nepal\'s majestic landscapes.',
         image:'assets/img/3.jpg'
     },
     {
-        place:'Nepal, Pokahara',
+        place:'Nepal, Pokhara',
         title:'Pokahara',
         title2:'City',
         description:'Pokhara city, nestled amidst the Himalayas, where serene lakes mirror majestic peaks, and the breeze carries whispers of adventure and tranquility.',
         image:'assets/img/4.jpg'
     },
     {
-        place:'Nepal, Pokahara',
+        place:'Nepal, Pokhara',
         title:'Upper side',
         title2:'Lake & jungle',
         description:'On Pokhara\'s upper side, lofty mountains stand guard, their rugged peaks embracing the sky, while valleys below cradle stories of ancient trails and boundless beauty.',
         image:'assets/img/5.jpg'
     },
     {
-        place:'Nepal, Pokahara',
+        place:'Nepal, Pokhara',
         title:'City',
         title2:'Night Time',
         description:'In the tranquil embrace of Pokhara\'s night, the cityscape twinkles like a constellation, reflecting in the calm waters of Phewa Lake, where whispers of tranquility weave through the darknes.',
