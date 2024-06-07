@@ -1,0 +1,659 @@
+:root {
+  --backgroundImageLocation: url("https://images.unsplash.com/photo-1712006744029-8af9f902b760?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  --taskbarHeight: 0px;
+  --inputMarkerW: 1ch;
+  --lightDeg: 120deg;
+  --mainColor: #ffd0d090;
+  --alt1: #ffe9e990;
+  --alt2: #a8e8ff90;
+  --alt3: #ffffff90;
+  --taskbarColor: var(--mainColor);
+  --windowColor: #ffe9e990;
+  --petalHue: 330deg;
+  --petalLifetime: 10s;
+  --glassomorphism1: linear-gradient(var(--lightDeg), #ffe9e9A6, #ffe9e930);
+  --glassomorphism2: linear-gradient(var(--lightDeg), var(--mainColor), var(--alt2), #fff2);
+  --glassomorphism3: linear-gradient(var(--lightDeg), #c76adef0, #c76ade90);
+  --green: #7aff64;
+  --yellow: #fff764;
+  --red: #ff6464;
+  --purple: #c76ade;
+  --openWindowColor: var(--purple);
+  --openWindowTime: .35s;
+  --divisionBorder: 2px solid #fff5;
+}
+
+body, html {
+  margin: 0;
+  font-family: "Signika Negative", sans-serif;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+body, .window:before, .window:after {
+  background: var(--backgroundImageLocation) fixed center center no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#windowsOverlay {
+  flex: 1;
+}
+
+#taskbar {
+  font-size: 30px;
+  color: white;
+  width: 100%;
+  background-color: var(--taskbarColor);
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 0.5em;
+  align-items: center;
+  z-index: 10;
+}
+.taskbaritems {
+  display: flex;
+  justify-content: flex-start;
+}
+.taskbaritems > * {
+  --marginBetweenEach: .5em;
+  --paddingXEachButton: .2em;
+  --paddingYEachButton: .3em;
+  --activeUnderlineSize: 3px;
+  box-sizing: border-box;
+  border-style: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  display: block;
+  cursor: pointer;
+  margin: 0 var(--marginBetweenEach);
+  padding: var(--paddingYEachButton) var(--paddingXEachButton);
+  margin-top: calc(var(--paddingYEachButton) * 4/5);
+  padding-top: calc(var(--paddingYEachButton) * 1/5);
+  margin-bottom: calc(var(--paddingYEachButton) * 4/5);
+  padding-bottom: calc(var(--paddingYEachButton) * 1/5 + var(--activeUnderlineSize));
+  border-radius: 4px;
+}
+.taskbaritems > * > * {
+  transition: transform 0.1s ease-in-out;
+}
+.taskbaritems > *:hover > * {
+  transform: translateY(-4px);
+}
+.taskbaritems > *:not(.exited) {
+  border-bottom: var(--activeUnderlineSize) solid var(--openWindowColor);
+  padding-bottom: calc(var(--paddingYEachButton) * 1/5);
+}
+.taskbaritems > *#startMenu {
+  padding-right: calc(var(--paddingXEachButton) + var(--marginBetweenEach));
+  border-right: 2px solid white;
+  border-bottom: none;
+  padding-bottom: calc(var(--paddingYEachButton) * 1/3 + var(--activeUnderlineSize));
+}
+.taskbaritems > *:first-child {
+  margin-left: 0;
+}
+.taskbaritems > *:last-child {
+  margin-right: 0;
+}
+
+.windowPositioner, .petalPositioner {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: 0;
+}
+
+.windowPositioner {
+  top: inherit;
+  left: inherit;
+  opacity: 1;
+  transition: opacity ease-in 0.1s;
+}
+.windowPositioner.fullscreen {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100%;
+  height: 100%;
+}
+.windowPositioner.fullscreen .window {
+  animation: none;
+  width: 100% !important;
+  height: calc(100% - var(--taskbarHeight)) !important;
+}
+.windowPositioner.closed {
+  top: 100vh !important;
+  opacity: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+.windowPositioner.smoothTopAnimation {
+  transition: top ease-in var(--openWindowTime), opacity ease-in 0.4s;
+}
+.windowPositioner.exited {
+  transition: opacity steps(4, jump-none) var(--openWindowTime) 0.5s;
+  opacity: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+.windowPositioner.exited .window {
+  animation-play-state: paused;
+}
+.windowPositioner.exited .window .glassShatter {
+  display: block;
+}
+
+.windowActionButtons > * {
+  cursor: pointer;
+  border-style: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: inherit;
+  font-size: inherit;
+}
+
+.minimize:hover {
+  color: var(--green);
+}
+
+.windowed:hover {
+  color: var(--yellow);
+}
+
+.close:hover {
+  color: var(--red);
+}
+
+.window {
+  width: 550px;
+  height: 400px;
+  position: absolute;
+  box-sizing: border-box;
+  border: var(--divisionBorder);
+  background-image: var(--glassomorphism1);
+  border-radius: 4px;
+  font-size: calc(.5em + .5vw);
+  transition: top 0.2s ease;
+  animation: windowFloat 1.5s ease-in-out infinite alternate;
+}
+.window:hover {
+  animation-play-state: paused;
+  top: 0;
+}
+.window > * {
+  padding: 4px;
+  margin: 0 8px;
+}
+.window > .glassShatter {
+  position: absolute;
+  display: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-image: url("https://cdn.pixabay.com/photo/2019/02/26/01/43/broken-glass-4020981_960_720.png");
+  background-size: cover;
+  filter: contrast(100%) hue-rotate(80deg) saturate(0%) brightness(170%);
+}
+.window > .nav {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #fff8;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+}
+.window:before, .window:after, .window > .resizer {
+  content: "";
+  display: block;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+}
+.window:before, .window > .resizer {
+  box-sizing: border-box;
+  top: calc(0% - 6px);
+  left: calc(0% - 6px);
+  width: calc(100% + 2* 6px);
+  height: calc(100% + 2* 6px);
+  border-radius: 6px;
+  z-index: -2;
+  cursor: hover;
+}
+.window > .resizer {
+  --centerSize: 5fr;
+  display: grid;
+  grid-template-columns: 1fr var(--centerSize) 1fr;
+  grid-template-rows: 1fr var(--centerSize) 1fr;
+}
+.window > .resizer > :nth-child(1) {
+  cursor: nw-resize;
+}
+.window > .resizer > :nth-child(2) {
+  cursor: n-resize;
+}
+.window > .resizer > :nth-child(3) {
+  cursor: ne-resize;
+}
+.window > .resizer > :nth-child(4) {
+  cursor: w-resize;
+}
+.window > .resizer > :nth-child(6) {
+  cursor: e-resize;
+}
+.window > .resizer > :nth-child(7) {
+  cursor: sw-resize;
+}
+.window > .resizer > :nth-child(8) {
+  cursor: s-resize;
+}
+.window > .resizer > :nth-child(9) {
+  cursor: se-resize;
+}
+.window:after {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(5px);
+  z-index: -1;
+}
+
+.petalPositioner {
+  --finX: -170px;
+  --finY: 60px;
+  top: 0;
+  left: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  animation: petalSink var(--petalLifetime) forwards normal ease-in;
+}
+
+.petalRotate {
+  width: 16px;
+  height: 36px;
+  top: 0;
+  left: 0;
+  animation: petalFloat2 9.3s infinite forwards ease-in-out;
+  animation-direction: var(--ad1);
+}
+
+.petal {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 16px;
+  width: 16px;
+  background-position: center;
+  filter: Grayscale(var(--gs)) brightness(110%) hue-rotate(var(--petalHue));
+  animation: petalFloat 18.3s infinite ease forwards;
+  animation-direction: var(--ad2);
+}
+.petal.petal1 {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABVklEQVQ4jd2TvUoDQRSFv5nZzWw2f7t5gLQBbdJELFKltLAL2PgEPkLARvA1xDIgWAUMPoAgKSysFEGChcFYLSE/JLsyu26iopWVHrjcM8u9h3sOLH8fwjiIOh0oFGAy8fA8i2Zz9KOzwQCKxZgK38d6/yxQ6oDxuEUUQberse0CSj2g9SO53C3Z7BXz+QDPM/MBEBqSCpzT7+9QLitAslyC1pDNbjCbEZdlQS53zXJ5ShDcE0WXawGlXlHKxnEMT0pKCMOEm2XTF4stRqNNHOeCfL4EnCUZDIcOvd4Lk0k+PtEsZDJJt+2kp5WKKzUTtZoj4wuknNJo7K2CMkvpYIo1j9D6Dq178eqHfLvU6+3YrxCfrZi3EGsBIZ7x/f2vAgbHVCqH8bAJMjk1uWgtKplOtwnD1ncCBkdUq7u47g1SBigVIESw4ko9USq1cd2Tf/Af/B7AG3qZViUd4GjUAAAAAElFTkSuQmCC");
+}
+.petal.petal2 {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB5UlEQVQ4jcWTwW7TQBCGP++uZTvBTa00QiQiLT30BXoCiQoJOCFx4Iw4wo034AX6CNw5wBWJE3CnglNLVKkIRVEBCbWpgNqOk10brZcoLS/QkUZr7/7/zP4zs1y4edXh4eIOvg+jERwdQa8HWQZSgtbQbluEh+9XpKnbD0PUOQUWaMnLy1CWLuBsdgUpJ5TlNYQwCLEPFHOKOpd9PAYhoNHoUxT3yfPLSHkXITRpOkOpEcbsAO+AfRfAEoIA0rTL6ekt8rxPmt7m+HgTSIiiCqU8jAGlCoy5g5T3CIJnwCfFwUFEq7XFcPiELNtkNuujdYmUgkbD6bZmNUOAMV2gTZ4LWq3HivH4JoPBcyaTq0SRRxxboKgl2To4Iv9u4FYhFHH8njC8JND6G83mD7T2aoAleC5pLW/+bVfr9tz3h0j5ByEGgjD8zMbGU7rdL3X0eVZLPmv2f+5l2efkZMt2zOksih06nQesrb1GiJSqWmS1weYyrE2ndc/Q+i15jqizuiLtsrr6kF5vm2ZzDyl/1YGKYkG02CDYo9N5RJK8IIrOzIED/wa2CYI3wA18/zpKNcnzdZaWviPlB1ZWXhGGu3Xrp9P/JtHZBGM+IoT1lyRJhTE/ieN1lPpKlnn1xLpiXvRTBP4Co0msQ3J+4LwAAAAASUVORK5CYII=");
+}
+.petal.petal3 {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABmUlEQVQ4jeWRvUokQRDHf7M70zo7jO6crIIompiIGi7ceS8gCwbHcelFxwXmhoLCvYO+gGIiRmpg5AcYnHIgxmLgx3CKeDq76/bOtlQPwz7DYUFT3V1dv/pXNf+/OWZ3F6pVaDTg9hbKZWi1IE0/8fIyj9afgWE8LyEITvH9bYJgm1IJlMKlXq+g1F+MgXY75OFhlvv7H2j9xY7H88D3sXGtp0iS7zQaW4yMfMXzjGN2dr4Rx7/o64tJkkmMiXBdbIXeXigUMkixmHk5CyyK9hgbm3PM87PH+vod19cfGB+Hnp5sKdVNEJ9DBC4+TaFSWSiglKZWqzI4CI7TfSCJYvle62y129DpQBgeUCxeOObxEfr74fz8J0dHqwwNZdVzUCa9SRRtoNQVxvwjDA9x3d/Cd61cIc/MrFGvT3N5uWDvRE1e3RiPTqeMUpsEwT6um/L6agU6Rr5PTJJE2vHxMk9PS1aBDDEfnsSk71KpxejoR4LgTNrpAuRhswlxLKcaNzcrpOmEbUdiosj3/zAwsIjvn1i4AN+7AW9I2o9+bALQEwAAAABJRU5ErkJggg==");
+}
+
+.inputMarker {
+  display: none;
+  width: var(--inputMarkerW);
+  background-image: var(--glassomorphism3);
+  border-radius: 0.18em;
+  opacity: 1;
+  color: transparent;
+  animation: blink 1s steps(2, jump-none) infinite;
+}
+
+.active .inputMarker {
+  display: inline-block;
+}
+
+@keyframes windowFloat {
+  from {
+    top: 0px;
+  }
+  to {
+    top: 15px;
+  }
+}
+@keyframes windowFloatHover {
+  to {
+    top: 0px;
+  }
+}
+@keyframes petalFloat {
+  20% {
+    transform: rotate(35deg);
+  }
+  30% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(390deg);
+  }
+  60% {
+    transform: rotate(-50deg);
+  }
+  70% {
+    transform: rotate(-370deg);
+  }
+}
+@keyframes petalFloat2 {
+  20% {
+    transform: rotate(376deg);
+  }
+  40% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform: rotate(-380deg);
+  }
+}
+@keyframes petalSink {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--finX)) translateY(var(--finY));
+  }
+}
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes fade-in-top {
+  from {
+    opacity: 0;
+    display: inherit;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    display: inherit;
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+@keyframes glossShine {
+  to {
+    left: 100%;
+  }
+}
+#Terminal .terminalContent * {
+  font-family: "Cousine", monospace;
+  font-size: calc(.5em + .5vw);
+  line-height: 1.6em;
+}
+
+#Terminal .terminalContent {
+  overflow: auto;
+  height: calc(100% - 3em);
+}
+#Terminal .terminalContent > div {
+  display: flex;
+}
+#Terminal .terminalContent > div > * {
+  align-items: center;
+}
+#Terminal .terminalContent > div > :not(:first-child) {
+  flex: 1;
+  padding-left: 1ch;
+}
+#Terminal .terminalContent table {
+  --rounding: 3px;
+  padding: 0;
+  border-collapse: collapse;
+}
+#Terminal .terminalContent table tr.spacerRow {
+  background-image: var(--glassomorphism2), var(--backgroundImageLocation);
+  background-origin: padding-box, padding-box;
+  background-attachment: scroll, fixed;
+  background-clip: padding-box, border-box;
+  background-blend-mode: screen;
+  height: 0.6em;
+  filter: blur(0.1em);
+}
+#Terminal .terminalContent table tr.spacerRow td, #Terminal .terminalContent table tr.spacerRow th {
+  color: transparent;
+}
+#Terminal .terminalContent table * {
+  padding: 0;
+}
+#Terminal .terminalContent table tr:nth-child(even) {
+  padding: 0.2em 0;
+  border-radius: var(--rounding);
+}
+#Terminal .terminalContent table tr td:first-child,
+#Terminal .terminalContent table tr th:first-child {
+  border-radius: var(--rounding) 0 0 var(--rounding);
+}
+#Terminal .terminalContent table tr td:last-child,
+#Terminal .terminalContent table tr th:last-child {
+  border-radius: 0 var(--rounding) var(--rounding) 0;
+}
+#Terminal .terminalContent table tr td:not(:first-child, :last-child),
+#Terminal .terminalContent table tr th:not(:first-child, :last-child) {
+  padding: 0 0.5em;
+}
+#Terminal .terminalContent #terminalInput {
+  box-sizing: border-box;
+  cursor: pointer;
+}
+#Terminal .terminalContent input {
+  max-width: calc(100% - var(--inputMarkerW));
+  width: 0;
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  caret-color: transparent;
+}
+#Terminal .terminalContent input:focus {
+  border: 0;
+  outline: 0;
+}
+
+#Browser .browserNavOutline {
+  --border: 2px;
+  --borderRadius: 3px;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  box-sizing: content-box;
+  padding: var(--border);
+  background: var(--backgroundImageLocation) fixed center center no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  border-radius: var(--borderRadius);
+}
+
+#Browser .browserNavBar {
+  position: relative;
+}
+#Browser .browserNavBar:before {
+  content: "";
+  position: absolute;
+  background: var(--backgroundImageLocation) fixed center center no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(3px);
+}
+#Browser .browserNavBar > .browserNavBarElements {
+  background-image: var(--glassomorphism2);
+  position: relative;
+  display: flex;
+  border-radius: var(--borderRadius);
+  padding: 0.1em 0.2em;
+}
+#Browser .browserNavBar > .browserNavBarElements > * {
+  flex: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-right: var(--divisionBorder);
+  margin: 0 0.5ch;
+}
+#Browser .browserNavBar > .browserNavBarElements > :first-child {
+  flex: 1;
+}
+#Browser .browserNavBar > .browserNavBarElements > :last-child {
+  flex: inherit;
+  justify-content: flex-end;
+  border-right: none;
+}
+
+.browserFunctions {
+  justify-content: center;
+  gap: 0.75ch;
+}
+
+.browserUtilities {
+  justify-content: flex-end;
+  gap: 0.75ch;
+}
+
+.browserContent {
+  border-top: var(--divisionBorder);
+  padding: 0 12%;
+  overflow: auto;
+}
+.browserContent > * {
+  transform: translateY(-15px);
+  animation: fade-in-top 1s ease both;
+}
+.browserContent .callToAction {
+  display: flex;
+  gap: 1em;
+}
+.browserContent .callToAction button {
+  position: relative;
+  border: none;
+  border-radius: 0.5em;
+  background: var(--backgroundImageLocation) fixed center center no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-image: var(--glassomorphism3);
+  color: white;
+  padding: 0.75em 2em;
+  overflow: hidden;
+  cursor: pointer;
+}
+.browserContent .callToAction button:after {
+  --backgroundImageWidth: 12px;
+  --backgroundImageHeight: 500px;
+  content: "";
+  position: absolute;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  bottom: calc(-1 * var(--backgroundImageWidth));
+  left: -50%;
+  transform-origin: bottom left;
+  width: var(--backgroundImageWidth);
+  height: var(--backgroundImageHeight);
+  background-image: linear-gradient(90deg, #fff0, #ffff, #fff0);
+  transform: rotate(calc(-90deg + var(--lightDeg)));
+  animation: glossShine 0.4s ease-in-out 2s;
+}
+.browserContent .cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1em;
+}
+.browserContent .cards > * {
+  background-color: #fff9;
+  border-radius: 1em;
+  padding: 1em;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 0.9em;
+  margin: 0;
+  transform: translateX(-15px);
+  animation: fade-in-left 1s ease both;
+}
+.browserContent .cards > * > * {
+  margin: 0.25em 0;
+}
+.browserContent .cards > * > :first-child {
+  margin-top: 0;
+}
+.browserContent .cards > * > :last-child {
+  margin-bottom: 0;
+}
