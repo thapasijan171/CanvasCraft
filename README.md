@@ -1,3 +1,7 @@
+#  Main Conclusion
+This I made for my practice, so ignored this." is a sentence indicating that the content was created for practice purposes and should not be taken seriously or considered important. The author asks the reader to disregard the content, suggesting it was a test or learning exercise.
+
+
 # Modern Website Design
 
 ## Introduction
