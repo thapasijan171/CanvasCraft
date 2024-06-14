@@ -63,4 +63,4 @@ all
 deploy link in all repo 🫶
 
 
-# Only for eductional purpose!
+# Don't used for personal purpose -  This code only for eductional purpose!
