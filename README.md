@@ -14,18 +14,16 @@ The repository is organized into different directories, each focusing on a speci
 
 ```bash
 /practice-code-repo
-    ├── language1/
+    ├── root/
     │   ├── project1/
     │   └── project2/
-    ├── language2/
+    ├── root/
     │   ├── project1/
     │   └── project2/
-    ├── framework1/
+    ├── root/
     │   ├── project1/
     │   └── project2/
-    └── tools/
-        ├── tool1/
-        └── tool2/
+    └── toot/
 ```
 
 ## Usage
