@@ -1,41 +1,48 @@
-# Practice Code Repository
-## Overview
-Welcome to my practice code repository! This repository contains various coding exercises, projects, and snippets that I have worked on to enhance my programming skills and knowledge. The primary purpose of this repository is educational, allowing me to practice and refine my coding abilities.
+# Real-Time Drawing App
 
-## Purposes
-The content in this repository is intended for educational purposes. By working through different coding challenges and projects, I aim to:
-- Improve my understanding of various programming languages and frameworks.
-- Develop problem-solving skills.
-- Learn and implement best practices in coding.
-- Experiment with new technologies and tools.
+A real-time drawing application built with Go for the backend and React with TypeScript and Zustand for the frontend. The app allows users to draw collaboratively, with changes saved in SQLite.
 
-## Structurev
-The repository is organized into different directories, each focusing on a specific topic or project. Here is a brief overview of the structure:
+<p align="center">
+<img src="https://go-skill-icons.vercel.app/api/icons?i=go,sqlite,react,ts,zustand,vite" />
+</p>
 
-```bash
-/practice-code-repo
-    ├── root/
-    │   ├── project1/
-    │   └── project2/
-    ├── root/
-    │   ├── project1/
-    │   └── project2/
-    ├── root/
-    │   ├── project1/
-    │   └── project2/
-    └── toot/
-```
+### Preview
 
-## Usage
-Feel free to explore the code in this repository. Each project or exercise usually includes its own README file with instructions on how to run the code and any prerequisites needed.
+<p align="center">
+<img width="650px" src="preview.png" alt="Preview" />
+</p>
 
-## Contributing
-This repository is primarily for my personal educational use. However, if you have suggestions for improvements or want to share your own solutions, feel free to open an issue or submit a pull request.
+### Installation
 
-## License
-The code in this repository is licensed under the MIT License. You are free to use, modify, and distribute it as long as you include the original license in any copies or substantial portions of the code.
+1. Clone the repository:
 
-## Contact
-If you have any questions or comments, please feel free to contact me via [thapasijan171@gmail.com] or open an issue in the repository.
+   ```bash
+   git clone https://github.com/maciekt07/DrawingApp.git
+   cd DrawingApp
+   ```
 
-Happy coding!
+2. Install backend dependencies and run the server:
+
+   ```bash
+   cd server
+   go mod tidy
+   go run main.go
+   ```
+
+> [!NOTE]  
+> The server will start running on port 8080.
+
+3. Install frontend dependencies and run the client:
+
+   ```bash
+   cd ..
+   npm install
+   npm run dev
+   ```
+
+> [!NOTE]  
+> The client will start running on port 5173.
+
+### Credits
+
+made with ❤️ by [maciekt07](https://github.com/maciekt07)
