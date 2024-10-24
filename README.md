@@ -1,9 +1,11 @@
-# Real-Time Drawing App
+# CanvasCraft
 
 A real-time drawing application built with Go for the backend and React with TypeScript and Zustand for the frontend. The app allows users to draw collaboratively, with changes saved in SQLite.
 
 <p align="center">
-<img src="https://go-skill-icons.vercel.app/api/icons?i=go,sqlite,react,ts,zustand,vite" />
+ <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=react,go,sqlite,ts,vite&perline=5" />
+  </a>
 </p>
 
 ### Preview
@@ -17,8 +19,8 @@ A real-time drawing application built with Go for the backend and React with Typ
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/maciekt07/DrawingApp.git
-   cd DrawingApp
+   git clone https://github.com/thapasijan171/CanvasCraft.git
+   cd CanvasCraft
    ```
 
 2. Install backend dependencies and run the server:
@@ -45,4 +47,4 @@ A real-time drawing application built with Go for the backend and React with Typ
 
 ### Credits
 
-made with ❤️ by [maciekt07](https://github.com/maciekt07)
+made with ❤️ by [thapasijan171](https://github.com/thapasijan171)
