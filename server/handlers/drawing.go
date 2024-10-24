@@ -42,39 +42,31 @@ func SaveDrawingHandler(w http.ResponseWriter, r *http.Request) {
 
 // retrieves all drawings from the database
 func GetDrawingsHandler(w http.ResponseWriter, r *http.Request) {
-	// Query the database to select id, path, and color from the drawings table.
 	rows, err := db.DB.Query("SELECT id, path, color FROM drawings")
 	if err != nil {
-		// If there's an error with the query, respond with an internal server error.
 		http.Error(w, "Error retrieving drawings", http.StatusInternalServerError)
 		return
 	}
-	defer rows.Close() // Ensure the rows are closed after processing.
+	defer rows.Close()
 
-	var drawings []models.Drawing // Slice to hold the retrieved drawing objects.
+	var drawings []models.Drawing
 	for rows.Next() {
-		var drawing models.Drawing    // Create a new Drawing object for each row.
-		var pathJSON string            // Variable to hold the path JSON string from the database.
+		var drawing models.Drawing
+		var pathJSON string
 
-		// Scan the row into the Drawing object and pathJSON variable.
 		if err := rows.Scan(&drawing.ID, &pathJSON, &drawing.Color); err != nil {
-			// If there's an error scanning the row, respond with an internal server error.
 			http.Error(w, "Error scanning drawing", http.StatusInternalServerError)
 			return
 		}
 
-		// Unmarshal the JSON string into the Path field of the Drawing object.
 		if err := json.Unmarshal([]byte(pathJSON), &drawing.Path); err != nil {
-			// If there's an error unmarshalling the path, respond with an internal server error.
 			http.Error(w, "Error unmarshalling drawing path", http.StatusInternalServerError)
 			return
 		}
 
-		drawings = append(drawings, drawing) // Append the drawing to the slice.
+		drawings = append(drawings, drawing)
 	}
 
-	// Set the response header to indicate JSON content type.
 	w.Header().Set("Content-Type", "application/json")
-	// Encode the drawings slice as JSON and send it in the response.
 	json.NewEncoder(w).Encode(drawings)
 }

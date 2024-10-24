@@ -30,7 +30,7 @@ func main() {
     // Apply CORS middleware
     http.Handle("/", middleware.EnableCORS(r))
 
-    // Start the server (:
+    // Start the server
     log.Println("Server started on :8080")
     if err := http.ListenAndServe(":8080", nil); err != nil {
         log.Fatal("ListenAndServe: ", err)
