@@ -1,3 +1,30 @@
+/*
+ **ToDo**
+   - Importing necessary hooks from React: `useEffect`, `useRef`, `useState`.
+   - Importing functions and types from custom store (`useDrawingStore`) and types (`Drawing`, `Point`).
+   - `canvasRef`: Stores reference to the canvas DOM element.
+   - `isDrawing`: Tracks if the user is currently drawing on the canvas.
+   - `currentPath`: Stores the current path (array of points) being drawn.
+   - `currentColor`: Stores the currently selected color for drawing.
+   - `socketRef`: Stores reference to a WebSocket for real-time drawing sync.
+   - Initializes WebSocket connection to a local server.
+   - Handles incoming WebSocket messages for either adding new drawings or clearing them.
+   - Fetches initial drawing data from an API and updates the state.
+   - Ensures the WebSocket connection is closed when the component unmounts.
+   - Clears the canvas and redraws all stored drawings every time `drawings` state changes.
+   - Loops over each drawing and renders the path using its stored color.
+   - Called when the user starts drawing on the canvas (mouse down event).
+   - Initializes a new drawing path and sets up the drawing context on the canvas.
+   - Called while the user is dragging the mouse (mouse move event) to draw lines.
+   - Updates the canvas by extending the current path and rendering it.
+   - Called when the user stops drawing (mouse up or mouse leave event).
+   - Finalizes the current drawing, adds it to the drawing state, and sends it via WebSocket to other connected clients.
+   - Clears all drawings locally and sends a WebSocket message to other clients to clear their canvases as well.
+   - Includes a color picker to allow the user to select the drawing color.
+   - A "Clear" button to clear the canvas.
+   - The canvas itself, which listens for mouse events to handle drawing.
+*/
+
 import React, { useEffect, useRef, useState } from "react";
 import { useDrawingStore } from "../store/store";
 import { Drawing, Point } from "../types/types";
