@@ -44,7 +44,3 @@ A real-time drawing application built with Go for the backend and React with Typ
 
 > [!NOTE]  
 > The client will start running on port 5173.
-
-### Credits
-
-made with ❤️ by [thapasijan171](https://github.com/thapasijan171)
